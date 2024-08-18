@@ -1,6 +1,7 @@
 <?php
 
-class TarefaService {
+class TarefaService
+{
 
     private $conexao;
     private $tarefa;
@@ -11,7 +12,7 @@ class TarefaService {
         $this->tarefa = $tarefa;
     }
 
-    public function create() 
+    public function create()
     {
         $query = 'INSERT INTO tb_tarefas(tarefa)VALUES(:tarefa)';
         $stmt = $this->conexao->prepare($query);
@@ -21,16 +22,19 @@ class TarefaService {
 
     public function read()
     {
-        
+        $query = 
+        'SELECT 
+            t.id, s.status, t.tarefa
+         FROM
+           tb_tarefas AS t
+         LEFT JOIN tb_status s ON t.id_status = s.id';
+         
+        $stmt = $this->conexao->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update() 
-    {
-        
-    }
+    public function update() {}
 
-    public function delete() 
-    {
-        
-    }
+    public function delete() {}
 }
