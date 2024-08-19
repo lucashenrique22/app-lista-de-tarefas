@@ -17,10 +17,25 @@ if ($acao == 'inserir') {
     $tarefaService->create();
 
     header('Location: nova_tarefa.php?inclusao=1');
+
 } else if ($acao == 'recuperar') {
+
     $tarefa = new Tarefa();
     $conexao = new Conexao();
 
     $tarefaService = new TarefaService($conexao, $tarefa);
     $tarefas = $tarefaService->read();
+
+} else if ($acao == 'atualizar') {
+
+    $tarefa = new Tarefa();
+    $tarefa->__set('id', $_POST['id']);
+    $tarefa->__set('tarefa', $_POST['tarefa']);
+
+    $conexao = new Conexao();
+
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    if($tarefaService->update()) {
+        header('location: todas_tarefas.php');
+    };
 }
