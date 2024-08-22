@@ -17,7 +17,6 @@ if ($acao == 'inserir') {
     $tarefaService->create();
 
     header('Location: nova_tarefa.php?inclusao=1');
-
 } else if ($acao == 'recuperar') {
 
     $tarefa = new Tarefa();
@@ -25,17 +24,27 @@ if ($acao == 'inserir') {
 
     $tarefaService = new TarefaService($conexao, $tarefa);
     $tarefas = $tarefaService->read();
-
 } else if ($acao == 'atualizar') {
 
     $tarefa = new Tarefa();
-    $tarefa->__set('id', $_POST['id']);
-    $tarefa->__set('tarefa', $_POST['tarefa']);
+    $tarefa->__set('id', $_POST['id'])
+        ->__set('tarefa', $_POST['tarefa']);
 
     $conexao = new Conexao();
 
     $tarefaService = new TarefaService($conexao, $tarefa);
-    if($tarefaService->update()) {
+    if ($tarefaService->update()) {
         header('location: todas_tarefas.php');
-    };
+    }
+} else if ($acao == 'remover') {
+
+    $tarefa = new Tarefa();
+    $tarefa->__set('id', $_GET['id']);
+
+    $conexao = new Conexao();
+
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $tarefaService->delete();
+
+    header('location: todas_tarefas.php');
 }
